@@ -23,6 +23,7 @@ namespace SpecFlowProject1.Hooks
             + "Configuration/configSetting.json";
         //private static ScenarioContext _scenarioContext;
         //private static ExtentReports _extentReports;
+        //Learning Git
         public Hooks(IObjectContainer container)
         {
             _container = container;
