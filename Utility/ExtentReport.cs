@@ -1,73 +1,56 @@
-﻿//using AventStack.ExtentReports;
-//using NUnit.Framework;
-//using NUnit.Framework.Interfaces;
-////using RelevantCodes.ExtentReports;
-//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
+using OpenQA.Selenium;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Drawing.Imaging;
+//using AventStack.ExtentReports.Reporter.Config;
+using AventStack.ExtentReports.Reporter.Configuration;
 
-//namespace ExtentReportsDemo
-//{
-//    [TestFixture]
-//    public class BasicReport
-//    {
-//        public ExtentReports extent;
-//        public ExtentTest test;
+namespace SpecFlowProject1.Utility;
 
-//        [OneTimeSetUp]
-//        public void StartReport()
-//        {
-//            string path = System.Reflection.Assembly.GetCallingAssembly().CodeBase;
-//            string actualPath = path.Substring(0, path.LastIndexOf("bin"));
-//            string projectPath = new Uri(actualPath).LocalPath;
-//            string reportPath = projectPath + "Reports\\MyOwnReport.html";
+public class ExtentReport
+{
+    public static ExtentReports _extentReports;
+    public static ExtentTest _feature;
+    public static ExtentTest _scenario;
 
-//            extent = new ExtentReports(reportPath, true);
-//            extent
-//            .AddSystemInfo("Host Name", "Krishna")
-//            .AddSystemInfo("Environment", "QA")
-//            .AddSystemInfo("User Name", "Krishna Sakinala");
-//            extent.LoadConfig(projectPath + "extent-config.xml");
-//        }
+    public static String dir = AppDomain.CurrentDomain.BaseDirectory;
+    public static String testResultPath = dir.Replace("bin\\Debug\\net6.0", "TestResults" /* + DateTime.Now.ToString("ddMMyyyyHHmmss") */);
 
-//        [Test]
-//        public void DemoReportPass()
-//        {
-//            test = extent.StartTest("DemoReportPass");
-//            Assert.IsTrue(true);
-//            test.Log(LogStatus.Pass, "Assert Pass as condition is True");
-//        }
+    public static void ExtentReportInit()
+    {
+        var htmlReporter = new ExtentHtmlReporter(testResultPath);
+        htmlReporter.Config.ReportName = "Automation Status Report";
+        htmlReporter.Config.DocumentTitle = "Automation Status Report";
+        htmlReporter.Config.Theme = Theme.Standard;
+        htmlReporter.Start();
 
-//        [Test]
-//        public void DemoReportFail()
-//        {
-//            test = extent.StartTest("DemoReportFail");
-//            Assert.IsTrue(false);
-//            test.Log(LogStatus.Pass, "Assert Fail as condition is False");
-//        }
+        _extentReports = new ExtentReports();
+        _extentReports.AttachReporter(htmlReporter);
+        _extentReports.AddSystemInfo("Application", "GeekForGeeks");
+        _extentReports.AddSystemInfo("Browser", "Chrome");
+        //_extentReports.AddSystemInfo("OS", "Windows");
+    }
 
-//        [TearDown]
-//        public void GetResult()
-//        {
-//            var status = TestContext.CurrentContext.Result.Outcome.Status;
-//            var stackTrace = "<pre>" + TestContext.CurrentContext.Result.StackTrace + "</pre>";
-//            var errorMessage = TestContext.CurrentContext.Result.Message;
+    public static void ExtentReportTearDown()
+    {
+        _extentReports.Flush();
+    }
 
-//            if (status == TestStatus.Failed)
-//            {
-//                test.Log(LogStatus.Fail, stackTrace + errorMessage);
-//            }
-//            extent.EndTest(test);
-//        }
+    public string addScreenshot(IWebDriver driver, ScenarioContext scenarioContext)
+    {
+        ITakesScreenshot takesScreenshot = (ITakesScreenshot)driver;
+        Screenshot screenshot = takesScreenshot.GetScreenshot();
+        string screenshotLocation = Path.Combine(testResultPath, scenarioContext.ScenarioInfo.Title + ".png");
+        screenshot.SaveAsFile(screenshotLocation /*, ImageFormat.Png */);
+        return screenshotLocation;
+    }
 
-//        [OneTimeTearDown]
-//        public void EndReport()
-//        {
-//            extent.Flush();
-//            extent.Close();
-//        }
-//    }
-//}
+
+}
+
+

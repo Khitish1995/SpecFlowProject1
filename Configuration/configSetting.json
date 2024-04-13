@@ -1,4 +1,5 @@
 ﻿{
   "BrowserType": "Chrome",
-  "LogLevel" : "All"
+  "LogLevel": "All",
+  "Application": "https://www.geeksforgeeks.org/"
 }

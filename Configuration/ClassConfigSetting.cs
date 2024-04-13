@@ -12,5 +12,6 @@ namespace SpecFlowProject1.Configuration
           which will define in the configuration file.  */
         public string BrowserType { get; set; }
         public string LogLevel { get; set; }
+        public string Application { get; set; }
     }
 }
