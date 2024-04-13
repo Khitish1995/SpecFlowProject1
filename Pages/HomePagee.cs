@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumWebdriver.ExcelReader;
+//using SeleniumWebdriver.ExcelReader;
 using SpecFlowProject1.Utility;
 using System;
 using System.Collections.Generic;
@@ -24,11 +24,11 @@ namespace SpecFlowProject1.Pages
         string xlPath = @"C:\Users\LENOVO\source\repos\SpecFlowProject1\TestData\TestDataExcel.xlsx";
         string userName;
         string passWord;
-        private readonly ExcelReaderHelper erh;
+        //private readonly ExcelReaderHelper erh;
         public HomePagee(IWebDriver driver)
         {
             this.driver = driver;
-            erh = new ExcelReaderHelper(driver);
+            //erh = new ExcelReaderHelper(driver);
         }
         public void Login(int rowNum)
         {
