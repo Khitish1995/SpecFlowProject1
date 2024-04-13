@@ -81,7 +81,7 @@ namespace SpecFlowProject1.Utility
         {
             try 
             {
-                string data = (from colData in dataCol where colData.colName == columnName && colData.rowNumber == rowNumber select colData.colValue).SingleOrDefault();
+                string data = dataCol?.FirstOrDefault(x => x.colName == columnName && x.rowNumber == rowNumber)?.colValue;//(from colData in dataCol where colData.colName == columnName && colData.rowNumber == rowNumber select colData.colValue).SingleOrDefault();
                 return data.ToString();
             }
             catch (Exception ex) { return null; }

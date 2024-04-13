@@ -26,7 +26,8 @@ namespace SpecFlowProject1.StepDefinitions
         [Given(@"User lands on the homepage to login")]
         public void GivenUserLandsonthehomepagetoLogin()
         {
-            driver.Navigate().GoToUrl(GetgeeksURL());
+            //driver.Navigate().GoToUrl(GetgeeksURL()); Application
+            driver.Navigate().GoToUrl(Hooks.Hooks.config.Application);
         }
 
         [When(@"User enters ID and Password to login")]
